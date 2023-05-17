@@ -2,6 +2,8 @@ SELECT
 	S.name as 'Schema',
 	T.name as 'Table',
 	I.name as 'Index',
+	DDIPS.OBJECT_ID,
+	DDIPS.index_id,
 	DDIPS.avg_fragmentation_in_percent,
 	DDIPS.page_count
 FROM sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL, NULL) AS DDIPS
