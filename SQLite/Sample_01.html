@@ -1,16 +1,20 @@
 <meta charset="utf8" />
 <html>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
     config = {
       <!-- locateFile: filename => `/dist/${filename}` -->
 	    locateFile: file => `https://sql.js.org/dist/${file}`
     }
+	var db
+	var gSql
     // The `initSqlJs` function is globally provided by all of the main dist files if loaded in the browser.
     // We must specify this locateFile function if we are loading a wasm file from anywhere other than the current html page's folder.
     initSqlJs(config).then(function(SQL){
+	  gSql = SQL
       //Create the database
-      const db = new SQL.Database();
+      db = new SQL.Database();
       // Run a query without reading the results
       db.run("CREATE TABLE test (col1, col2);");
       // Insert two rows: (1,111) and (2,222)
@@ -27,8 +31,32 @@
         console.log('Here is a row: ' + JSON.stringify(row));
       }
     });
+	
+    async function loadDatabase() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.sqlite';
+      input.onchange = async function(e) {
+        const file = input.files[0];
+        const filebuffer = await file.arrayBuffer();
+        db = new gSql.Database(new Uint8Array(filebuffer));
+        console.log('Database loaded successfully.');
+      };
+      input.click();
+    }
+	
+    async function saveDatabase() {
+      // const db = new SQL.Database();
+      // [...](create the database)
+      const data = db.export();
+      const blob = new Blob([data], { type: 'application/octet-stream' });
+      saveAs(blob, 'filename.sqlite');
+      console.log('Database saved successfully.');
+    }
   </script>
   <body>
     Output is in Javascript console
+	<button onclick="saveDatabase()">Save Database</button>
+	<button onclick="loadDatabase()">Load Database</button>
   </body>
 </html>
