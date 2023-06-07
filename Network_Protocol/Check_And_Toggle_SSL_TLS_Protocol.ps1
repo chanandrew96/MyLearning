@@ -1,8 +1,9 @@
-# Set the registry paths for the SSL/TLS settings
+﻿# Set the registry paths for the SSL/TLS settings
 $sslProtocolsPath = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols"
 $tls10Path = "$sslProtocolsPath\TLS 1.0"
 $tls11Path = "$sslProtocolsPath\TLS 1.1"
 $tls12Path = "$sslProtocolsPath\TLS 1.2"
+$ssl2Path = "$sslProtocolsPath\SSL 2.0"
 $ssl3Path = "$sslProtocolsPath\SSL 3.0"
 
 # Define the function to check if a registry key exists
@@ -43,7 +44,7 @@ function Toggle-Key($keyPath, $valueName, $valueData) {
                 break
             }
             default {
-                Write-Host "Invalid selection. Please enter a number (1-6) to select an option."
+                Write-Host "Invalid selection. Please enter a number (1-4) to select an option."
             }
         }  
         Clear-Host
@@ -105,8 +106,9 @@ function Show-Menu {
     Write-Host "2. Enable/Disable TLS 1.0"
     Write-Host "3. Enable/Disable TLS 1.1"
     Write-Host "4. Enable/Disable TLS 1.2"
-    Write-Host "5. Enable/Disable SSL 3.0"
-    Write-Host "6. Exit"
+    Write-Host "5. Enable/Disable SSL 2.0"
+    Write-Host "6. Enable/Disable SSL 3.0"
+    Write-Host "7. Exit"
 }
 
 # Display the menu options
@@ -168,39 +170,26 @@ do {
             read-host "Press Enter to continue..."
         }
         2 {
-            #if (Test-Key -keyPath $tls10Path) {
-                Toggle-Key -keyPath $tls10Path -valueName "Enabled" -valueData 0
-            #} else {
-            #    Write-Host "TLS 1.0 is not supported on this system."
-            #}
+            Toggle-Key -keyPath $tls10Path -valueName "Enabled" -valueData 0
         }
         3 {
-            #if (Test-Key -keyPath $tls11Path) {
-                Toggle-Key -keyPath $tls11Path -valueName "Enabled" -valueData 0
-            #} else {
-            #    Write-Host "TLS 1.1 is not supported on this system."
-            #}
+            Toggle-Key -keyPath $tls11Path -valueName "Enabled" -valueData 0
         }
         4 {
-            #if (Test-Key -keyPath $tls12Path) {
-                Toggle-Key -keyPath $tls12Path -valueName "Enabled" -valueData 0
-            #} else {
-            #    Write-Host "TLS 1.2 is not supported on this system."
-            #}
+            Toggle-Key -keyPath $tls12Path -valueName "Enabled" -valueData 0
         }
         5 {
-            #if (Test-Key -keyPath $ssl3Path) {
-                Toggle-Key -keyPath $ssl3Path -valueName "Enabled" -valueData 0
-            #} else {
-            #    Write-Host "SSL 3.0 is not supported on this system."
-            #}
+            Toggle-Key -keyPath $ssl2Path -valueName "Enabled" -valueData 0
         }
         6 {
+            Toggle-Key -keyPath $ssl3Path -valueName "Enabled" -valueData 0
+        }
+        7 {
             break
         }
         default {
-            Write-Host "Invalid selection. Please enter a number (1-6) to select an option."
+            Write-Host "Invalid selection. Please enter a number (1-7) to select an option."
         }
     }
     Show-Menu
-} while ($selection -ne 6)
+} while ($selection -ne 7)
