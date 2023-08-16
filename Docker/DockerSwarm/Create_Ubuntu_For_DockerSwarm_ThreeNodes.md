@@ -28,6 +28,11 @@ Or Update the `apt` by `sudo apt update`
 Once you set up your Ubuntu, Initialize the Docker Swarm / Swarm mode  
 > Docker Swarm is the tool, and Swarm mode is part of the docker as component.  
 > They both use similar underlying technology  
+## Access to Ubuntu via SSH on host (Optional)
+You can access to Ubuntu using SSH  
+``` Shell
+ssh <Ubuntu_IP_Address> -l <User_Name>
+```
 ## Initialize Docker Swarm in the container
   1. Start by starting Docker Service on container
       ``` shell
@@ -41,7 +46,9 @@ Once you set up your Ubuntu, Initialize the Docker Swarm / Swarm mode
       ``` shell
       sudo docker swarm init
       ```
-  3. 
+      A command will be shown for new node to join as worker like
+     `docker swarm join --token <token>`
+  4. 
 
 
 
