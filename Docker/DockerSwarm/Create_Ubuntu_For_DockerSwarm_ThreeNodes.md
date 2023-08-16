@@ -1,5 +1,48 @@
 # !!! Not recommended to run docker in docker container !!!
-# Use WSL2 to do so
+**!!! Use WSL2 to do so !!!**
+**All steps below are working under Windows environment & assumed your device works with Hyper-V**
+## Download Ubuntu Image (iso) from Ubuntu offical website
+Recommended to download Ubuntu Server by required less storage and RAM  
+Ubuntu Desktop required with at least 2GB RAM  
+### Versions
+- Ubuntu Desktop: Provided with GPU (Around 4 GB)
+- Ubuntu Server: CMD only, no GPU provided and less tools installed (Around 2 GB)
+## Install tools
+Update the `apt-get` by `apt-get update`  
+Or Update the `apt` by `sudo apt update`  
+- docker
+  ``` shell
+  sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-archive-keyring.gpg
+  sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" 
+  apt-cache policy docker-ce
+  sudo apt install docker-ce -y
+  ```
+- net-tools  
+  Install `net-tools` for execute `ifconfig` to get your Ubuntu IP address  
+  ``` shell
+  apt-get install -y net-tools
+  ```
+
+# Docker Swarm
+Once you set up your Ubuntu, Initialize the Docker Swarm / Swarm mode  
+> Docker Swarm is the tool, and Swarm mode is part of the docker as component.  
+> They both use similar underlying technology  
+## Initialize Docker Swarm in the container
+  1. Start by starting Docker Service on container
+      ``` shell
+      sudo service docker start
+      ```
+      Check if docker already started
+     ``` shell
+      sudo service docker status
+     ```
+  2. Initialize Swarm in the first container  
+      ``` shell
+      sudo docker swarm init
+      ```
+  3. 
+
 
 
 # Testing Docker Swarm with 3 nodes
@@ -55,13 +98,3 @@ In this code, we will try to create 3 Ubuntu machine on Docker and connect them 
        ``` shell
        docerk commit UbuntuContainer1 CustomUbuntuImage
        ```
-## Initialize Docker Swarm in the container
-  1. Start by starting Docker Service on container
-      ``` shell
-      service docker start
-      ```
-  2. Initialize Swarm in the first container  
-      ``` shell
-      docker swarm init
-      ```
-  4. 
