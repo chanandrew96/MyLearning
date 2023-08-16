@@ -1,3 +1,7 @@
+# !!! Not recommended to run docker in docker container !!!
+# Use WSL2 to do so
+
+
 # Testing Docker Swarm with 3 nodes
 In this code, we will try to create 3 Ubuntu machine on Docker and connect them using docker Swarm
 ## Create Docker Container using Ubuntu image
@@ -12,6 +16,7 @@ In this code, we will try to create 3 Ubuntu machine on Docker and connect them 
      - Remember to place the Image name at the last / after all of the arguments  
      ``` shell
      docker run -it -p 127.0.0.1:3500:22 --name UbuntuContainer1 ubuntu
+     docker run -it --cap-add SYS_ADMIN -p 127.0.0.1:3500:22 --name UbuntuContainer1 ubuntu 
      ```
   4. You will logged into the container using `root` account once the container created       
   5. Since the Ubuntu image is a clearn version without the components we gonna use in upcoming part, we need to install the components first
@@ -19,6 +24,10 @@ In this code, we will try to create 3 Ubuntu machine on Docker and connect them 
      - sudo
        ``` shell
        apt-get update && apt-get install -y sudo
+       ```
+     - systemctl
+       ``` shell
+       apt-get update && apt-get install -y systemctl
        ```
      - ssh
        ``` shell
@@ -42,13 +51,17 @@ In this code, we will try to create 3 Ubuntu machine on Docker and connect them 
        apt-get update && apt-get install -y vim
        ```
   6.   After all components above installed, we could commit the container as a new image for creating another 2 container later  
-       In command below, we commit an image called `CustomUbuntuImage` using container `UbuntuContainer1`  
+       In command below, we commit an image called `CustomUbuntuImage` using container `UbuntuContainer1`       
        ``` shell
        docerk commit UbuntuContainer1 CustomUbuntuImage
        ```
 ## Initialize Docker Swarm in the container
-  1. Start by initialize Swarm in the first container  
-    ``` shell
-   docker swarm init   
-    ```
-  2. 
+  1. Start by starting Docker Service on container
+      ``` shell
+      service docker start
+      ```
+  2. Initialize Swarm in the first container  
+      ``` shell
+      docker swarm init
+      ```
+  4. 
