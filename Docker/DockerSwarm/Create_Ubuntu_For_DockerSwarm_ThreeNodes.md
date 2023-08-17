@@ -77,14 +77,17 @@ ssh <Ubuntu_IP_Address> -l <User_Name>
       COPY . /var/www/html
       ```
   3. Press `esc` and type `:wq` to save the changes
+     - `:q` to return if no change made
+     - `:q!` to discard all changes made
   4. Build the Docker Image
       ``` shell
       * docker build -t <Image-Name> <Files-Path>
       docker build -t static-site .
       ```
   5. Run Docker Container
+     You can set `--restart` flag with [different value](https://docs.docker.com/engine/reference/run/#restart-policies---restart) to let the container restart itself when failure  
       ``` shell
-      docker run -it -d -p 8080:80 static-site
+      docker run -it -d --restart unless-stopped -p 8080:80 static-site
       ```
   6. 
 
