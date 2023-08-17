@@ -47,8 +47,49 @@ ssh <Ubuntu_IP_Address> -l <User_Name>
       sudo docker swarm init
       ```
       A command will be shown for new node to join as worker like
-     `docker swarm join --token <token>`
-  4. 
+     `sudo docker swarm join --token <token>`
+     To retrive the token / command
+     ``` shell
+     * Manager cmd
+     sudo docker swarm join-token manager
+     * Worker cmd
+     sudo docker swarm join-token worker
+     ```
+  4. Check all nodes in the Docker Swarm
+     ``` shell
+     sudo docker node ls
+     ```
+  5. Remove a worker / manager from Docker Swarm
+     ``` shell
+     sudo docker swarm leave
+     ```
+## (Optional) Create static website as Docker Swarm worker
+  1. Create `Dockerfile`
+      ``` shell
+      * Create folder to store the files
+      mkdir static-website
+      * Create / Edit Dockerfile file
+      vim Dockerfile
+      ```
+  2. Write content to `Dockerfile`
+      ``` Dockerfile
+      FROM httpd:2.4
+      COPY . /var/www/html
+      ```
+  3. Press `esc` and type `:wq` to save the changes
+  4. Build the Docker Image
+      ``` shell
+      * docker build -t <Image-Name> <Files-Path>
+      docker build -t static-site .
+      ```
+  5. Run Docker Container
+      ``` shell
+      docker run -it -d -p 8080:80 static-site
+      ```
+  6. 
+
+### Copy file via SSH
+Syntax: `scp <source> <destination>`
 
 
 
