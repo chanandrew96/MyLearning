@@ -89,12 +89,30 @@ ssh <Ubuntu_IP_Address> -l <User_Name>
       ``` shell
       docker run -it -d --restart unless-stopped -p 8080:80 static-site
       ```
-  6. 
+  6. Stop running Docker Container
+     To stop the Docker Container, use the `docker stop` command
+     ``` shell
+     docker container stop <Container-Id>
+     ```
+  8. Restart existing Docker Container
+     ``` shell
+     docker container start <Container-Id>
+     ```
 
 ### Copy file via SSH
 Syntax: `scp <source> <destination>`
 
-
+## Inspect & Update setting of existing Docker Container
+1. Inspect existing Docker Container
+    The following command will return Json format setting of the Docker Container  
+    ``` shell
+    docker container inspect <Container-Id>
+    ```
+2. Update Docker Container Setting
+    Below command is sample for updating the Restart Policy of Docker Container
+    ``` shell
+    docker update --restart unless-stopped <Container-Id>
+    ```
 
 # Testing Docker Swarm with 3 nodes
 In this code, we will try to create 3 Ubuntu machine on Docker and connect them using docker Swarm
