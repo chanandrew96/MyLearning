@@ -114,6 +114,35 @@ Syntax: `scp <source> <destination>`
     docker update --restart unless-stopped <Container-Id>
     ```
 
+# Create Docker Service in Docker Swarm
+## Assumption
+  1.  You already have Docker Image / Container prepared for the Docker Service
+  2.  The Docker already joined into Docker Swarm
+## Create Docker Service
+Following the step below to create Docker Service that can host on one of the Docker Swarm node and accessible from any one of the Docker Swarm node  
+  1. Create Docker Service
+      ``` shell
+      docker service create -p <Client-Port-Number>:<Host-Port-Number> --name <Service-Name> <Docker-Image> 
+      ```
+  2. Verify if Docker Service created
+      You should able to found the service from any one of the node in the Swarm  
+      ``` shell
+      docker service ls
+      ```
+  3. Remove existing Docker Service
+      ``` shell
+      docker service rm <Service-Name>
+      ```
+  4. Update the port (on Docker Host) using for Docker Service
+      ``` shell
+      docker service update --publish-add <Host-Port-Number> <Service-Name>
+      docker service update --publish-add <Client-Port-Number>:<Host-Port-Number> <Service-Name>
+      ```
+  5. Set Replicas of the Docker Service
+      ``` shell
+      docker service scale <Service-Name>=<Replicas-Number>
+      ```
+
 # Testing Docker Swarm with 3 nodes
 In this code, we will try to create 3 Ubuntu machine on Docker and connect them using docker Swarm
 ## Create Docker Container using Ubuntu image
