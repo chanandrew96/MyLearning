@@ -127,6 +127,24 @@ Syntax: `scp <source> <destination>`
     docker update --restart unless-stopped <Container-Id>
     ```
 
+# Clone Docker Image to another server 
+  1. Export the Docker Image to tar file
+      ``` shell
+      docker save -o <tar-file> <repository>
+      docker save -o static-site.tar static-site
+      ```
+  2. Copy the tar file to server
+      ``` shell
+      * Copy to /tmp to prevent Permission denied
+      scp <tar-file> <remote-user>@<remote-IP>:<Folder-Path>
+      scp static-site-export.tar user@172.128.0.101:/tmp
+      ```
+  3. Load the tar to Docker Image
+      ``` shell
+      docker load -i <tar-file>
+      docker load -i /tmp/static-site-export.tar
+      ```
+
 # Create Docker Service in Docker Swarm
 ## Assumption
   1.  You already have Docker Image / Container prepared for the Docker Service
