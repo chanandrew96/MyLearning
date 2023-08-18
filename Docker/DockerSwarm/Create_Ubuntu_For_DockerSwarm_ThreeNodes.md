@@ -63,6 +63,19 @@ ssh <Ubuntu_IP_Address> -l <User_Name>
      ``` shell
      sudo docker swarm leave
      ```
+  6. Demote manager node for remove
+     If one of the manager node was down and changed it IP address after reboot, you may need to leave the original Swarm and re-join the Swarm
+     ``` shell
+     * Leave original Swarm
+     docker swarm leave --force
+     ```
+     Remove the Unreachable node to clean up the node list
+     ``` shell
+     * Demote manager node
+     docker node demote <Node-Id>
+     * Remove node
+     docker node rm <Node-Id>
+     ```
 ## (Optional) Create static website as Docker Swarm worker
   1. Create `Dockerfile`
       ``` shell
