@@ -170,6 +170,7 @@ Following the step below to create Docker Service that can host on one of the Do
       docker service update --publish-add <Client-Port-Number>:<Host-Port-Number> <Service-Name>
       ```
   5. Set Replicas of the Docker Service
+      You need to ensure the Docker Service Image is available on each node, or the Docker Service will down even Replicas set  
       ``` shell
       docker service scale <Service-Name>=<Replicas-Number>
       ```
