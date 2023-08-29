@@ -24,6 +24,9 @@ Or Update the `apt` by `sudo apt update`
   apt-get install -y net-tools
   ```
 
+# Start Docker
+`sudo service docker start`
+
 # Docker Swarm
 Once you set up your Ubuntu, Initialize the Docker Swarm / Swarm mode  
 > Docker Swarm is the tool, and Swarm mode is part of the docker as component.  
